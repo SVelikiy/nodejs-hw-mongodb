@@ -35,8 +35,8 @@ export const getContactByID = (id) => ContactCollection.findById(id);
 
 export const addContact = (payload) => ContactCollection.create(payload);
 
-export const updateContact = async ({ id, payload, options = {} }) => {
-  const rawResult = await ContactCollection.findByIdAndUpdate(id, payload, {
+export const updateContact = async ({ _id, payload, options = {} }) => {
+  const rawResult = await ContactCollection.findOneAndUpdate({_id}, payload, {
     ...options,
     new: true,
     includeResultMetadata: true,
@@ -51,4 +51,4 @@ export const updateContact = async ({ id, payload, options = {} }) => {
 };
 
 export const deleteContact = (filter) =>
-  ContactCollection.findByIdAndDelete(filter);
+  ContactCollection.findOneAndDelete(filter);

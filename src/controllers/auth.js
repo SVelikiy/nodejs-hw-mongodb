@@ -12,12 +12,18 @@ const setUpSession = (res, session) => {
 };
 
 export const registerController = async (req, res) => {
-  const data = await authServises.register(req.body);
+    const newUser = await authServises.register(req.body);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
-    data,
+    data: {
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
+    },
   });
 };
 
@@ -49,9 +55,9 @@ export const refreshSessionController = async (req, res) => {
 };
 
 export const logoutController = async (req, res) => {
-  if (req.cookies.sessioId) {
-    await authServises.logout(req.cookies.sessioId);
-  }
+    if (req.cookies.sessionId) {
+      await authServises.logout(req.cookies.sessionId);
+    }
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
 
