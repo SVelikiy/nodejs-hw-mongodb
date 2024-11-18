@@ -3,6 +3,7 @@ import { findSession, findUser } from '../services/auth.js';
 
 export const authenticate = async (req, res, next) => {
   const authHeader = req.get('Authorization');
+
   if (!authHeader) {
     return next(createHttpError(401, 'Access token expired'));
   }
@@ -13,6 +14,7 @@ export const authenticate = async (req, res, next) => {
     );
   }
   const session = await findSession({ accessToken: token });
+  
   if (!session) {
     return next(createHttpError(401, 'Session not fond'));
   }
