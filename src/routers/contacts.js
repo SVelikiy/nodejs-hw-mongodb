@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as contactControllers from '../controllers/contacts.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
+import { upload } from '../middlewares/upload.js';
 import {
   contactAddSchema,
   contactUpdateSchema,
@@ -22,7 +23,7 @@ contactsRouter.get(
 );
 
 contactsRouter.post(
-  '/',
+  '/',upload.single('photo'),
   validateBody(contactAddSchema),
   ctrlWrapper(contactControllers.addContactController),
 );
@@ -30,6 +31,7 @@ contactsRouter.post(
 contactsRouter.patch(
   '/:id',
   isValidId,
+  upload.single('photo'),
   validateBody(contactUpdateSchema),
   ctrlWrapper(contactControllers.patchContactController),
 );
